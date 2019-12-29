@@ -99,6 +99,6 @@ adf.test(diff_ts)
 # The ACF plot confirms that
 autoplot(Acf(diff_ts)) + 
   ggtitle("ACF Differenced Box-Cox time series")
-# The autocorrelation values become rapidly small and remain small over time.
+# The autocorrelation values become rapidly small and remain small
 
 
