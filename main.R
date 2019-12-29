@@ -74,5 +74,31 @@ adf.test(time_series)
 # The returned p-value is 0.3978 > 0.01, thus we cannot reject the null hypotesis
 # with significance level alpha=0.01 i.e. time series is not stationary
 
+# Now we try to make the series stationary
+
+# First of all, we apply a Box-Cox transformation in order to regularize the
+# variance
+lambda <- BoxCox.lambda(time_series)
+log_time_series <- BoxCox(time_series, lambda)
+# Display the result
+autoplot(log_time_series) +
+  ggtitle("Daily Brent Oil Price - Box Cox Transformation")
+
+# Now we apply a first-order differencing to see if the time series becomes
+# a stationary one
+diff_ts <- diff(log_time_series, differences=1)
+autoplot(diff_ts) + 
+  ggtitle("Daily Brent Oil Price - Differenced and Box-Cox")
+
+# Let's check stationarity using ADF
+adf.test(diff_ts)
+
+# The p-value is smaller than 0.01, therefore we can reject the null hypotesis
+# with significance level 0.01. Thus, the transformed series approximate a 
+# stationary one.
+# The ACF plot confirms that
+autoplot(Acf(diff_ts)) + 
+  ggtitle("ACF Differenced Box-Cox time series")
+# The autocorrelation values become rapidly small and remain small over time.
 
 
